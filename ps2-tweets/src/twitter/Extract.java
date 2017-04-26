@@ -1,5 +1,7 @@
 package twitter;
 
+import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +23,17 @@ public class Extract {
      *         every tweet in the list.
      */
     public static Timespan getTimespan(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+        Instant start = Instant.MAX;
+        Instant end = Instant.MIN;
+    	for(Tweet tweet : tweets){
+        	if(tweet.getTimestamp().compareTo(start) < 0){
+        		start = tweet.getTimestamp();
+        	}
+        	if(tweet.getTimestamp().compareTo(end) > 0){
+        		end = tweet.getTimestamp();
+        	}
+        }
+    	return new Timespan(start, end);
     }
 
     /**
@@ -40,7 +52,10 @@ public class Extract {
      *         include a username at most once.
      */
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+        
+        Set<String> mentionedUsers = new HashSet<>();
+        
+        return mentionedUsers;
     }
 
     /* Copyright (c) 2007-2016 MIT 6.005 course staff, all rights reserved.
