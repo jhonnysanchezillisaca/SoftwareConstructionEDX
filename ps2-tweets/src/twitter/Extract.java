@@ -1,5 +1,6 @@
 package twitter;
 
+import java.lang.reflect.Array;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
@@ -55,7 +56,23 @@ public class Extract {
         
         Set<String> mentionedUsers = new HashSet<>();
         
+        for(Tweet tweet : tweets){
+        	mentionedUsers.addAll(getMentionedUsersFromTweet(tweet.getText()));
+        }
+        
         return mentionedUsers;
+    }
+    
+    private static Set<String> getMentionedUsersFromTweet(String content){
+    	Set<String> mentionedUsersOnTweet = new HashSet<>();
+    	String userPattern = "@.*";
+    	String[] wordsOnTweet = content.split(" ");
+    	for(String word : wordsOnTweet){
+    		if(word.matches(userPattern)){
+    			mentionedUsersOnTweet.add(word);
+    		}
+    	}
+    	return mentionedUsersOnTweet;
     }
 
     /* Copyright (c) 2007-2016 MIT 6.005 course staff, all rights reserved.

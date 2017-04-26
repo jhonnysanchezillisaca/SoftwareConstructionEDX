@@ -27,6 +27,7 @@ public class ExtractTest {
     private static final Tweet tweet5 = new Tweet(5, "bbitdiddle", "life @alyssa @tony @user is what it is", d3);
     private static final Tweet tweet6 = new Tweet(6, "bbitdiddle", "life asd@alyssar is what it is", d3);
     private static final Tweet tweet7 = new Tweet(7, "bbitdiddle", "@user life lyssar is what it is", d3);
+    private static final Tweet tweet8 = new Tweet(8, "bbitdiddle", "ife lyssar is what it is", d3);
 
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {
@@ -141,7 +142,7 @@ public class ExtractTest {
     
     @Test
     public void testGetMentionedUsersNoMention() {
-        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet8));
         
         assertTrue("expected empty set", mentionedUsers.isEmpty());
     }
