@@ -17,6 +17,9 @@ public class FilterTest {
     
     private static final Instant d1 = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
+    private static final Instant d3 = Instant.parse("2016-02-17T13:00:00Z");
+    private static final Instant d4 = Instant.parse("2016-02-17T15:00:00Z");
+
     
     private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
     private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 301 minutes #hype", d2);
@@ -70,6 +73,16 @@ public class FilterTest {
         assertTrue(writtenBy.contains(tweet3));
     }
     
+    /*
+     * Test for inTimespan
+     * 
+     * 	multiple tweets multiple results
+     * 	multiple tweets one result
+     * 	multiple tweets no result
+     * 	timespan zero
+     * 
+     */
+    
     @Test
     public void testInTimespanMultipleTweetsMultipleResults() {
         Instant testStart = Instant.parse("2016-02-17T09:00:00Z");
@@ -80,6 +93,39 @@ public class FilterTest {
         assertFalse("expected non-empty list", inTimespan.isEmpty());
         assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
         assertEquals("expected same order", 0, inTimespan.indexOf(tweet1));
+    }
+    
+    @Test
+    public void testInTimespanMultipleTweetsOneResult() {
+        Instant testStart = Instant.parse("2016-02-17T09:00:00Z");
+        Instant testEnd = Instant.parse("2016-02-17T10:01:00Z");
+        
+        List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(testStart, testEnd));
+        
+        assertFalse("expected non-empty list", inTimespan.isEmpty());
+        assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet1)));
+        assertEquals("expected same order", 0, inTimespan.indexOf(tweet1));
+    }
+    
+    @Test
+    public void testInTimespanMultipleTweetsNoResult() {
+        Instant testStart = Instant.parse("2016-02-17T08:00:00Z");
+        Instant testEnd = Instant.parse("2016-02-17T09:00:00Z");
+        
+        List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(testStart, testEnd));
+        
+        assertTrue(inTimespan.isEmpty());
+    }
+    
+    @Test
+    public void testInTimespanMultipleTweetsTimespanZero() {
+        Instant testStart = Instant.parse("2016-02-17T09:00:00Z");
+        Instant testEnd = Instant.parse("2016-02-17T09:00:00Z");
+        
+        List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(testStart, testEnd));
+        
+        assertTrue(inTimespan.isEmpty());
+
     }
     
     @Test
