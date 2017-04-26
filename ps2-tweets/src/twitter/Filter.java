@@ -1,6 +1,7 @@
 package twitter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Filter consists of methods that filter a list of tweets for those matching a
@@ -24,7 +25,7 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
+        return tweets.stream().filter(tweet -> tweet.getAuthor().equals(username)).collect(Collectors.toList());
     }
 
     /**

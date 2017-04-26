@@ -1,6 +1,5 @@
 package twitter;
 
-import java.lang.reflect.Array;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;

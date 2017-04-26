@@ -3,7 +3,6 @@ package twitter;
 import static org.junit.Assert.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -11,10 +10,6 @@ import org.junit.Test;
 
 public class ExtractTest {
 
-    /*
-     * TODO: your testing strategies for these methods should go here.
-     * Make sure you have partitions.
-     */
     
     private static final Instant d1 = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
@@ -103,6 +98,8 @@ public class ExtractTest {
      * 	different mentions in same tweet
      * 	invalid user mention (like an email address)
      * 	mention at beginning of tweet
+     * 
+     * TODO: test with different usernames
      */
     
     @Test

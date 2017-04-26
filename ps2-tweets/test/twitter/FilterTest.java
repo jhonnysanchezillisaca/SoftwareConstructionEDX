@@ -19,19 +19,55 @@ public class FilterTest {
     private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
     
     private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
-    private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
+    private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 301 minutes #hype", d2);
+    private static final Tweet tweet3 = new Tweet(3, "alyssa", "rivest talk in 302 minutes #hype", d2);
+    private static final Tweet tweet4 = new Tweet(4, "bbitdiddle", "rivest talk in 304 minutes #hype", d2);
     
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {
         assert false; // make sure assertions are enabled with VM argument: -ea
     }
     
+    /*
+     * Tests of writtenBy
+     * 
+     * no tweets of user
+     * no tweets
+     * various tweets from user
+     * 
+     */
+    
+    @Test
+    public void testWrittenByMultipleTweetsNoResults() {
+        List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet2, tweet4), "alyssa");
+        
+        assertEquals(0, writtenBy.size());
+        assertTrue(writtenBy.isEmpty());
+    }
+    
+    @Test
+    public void testWrittenByNoTweetsNoResults() {
+        List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(), "alyssa");
+        
+        assertEquals(0, writtenBy.size());
+        assertTrue(writtenBy.isEmpty());
+    }
+   
     @Test
     public void testWrittenByMultipleTweetsSingleResult() {
         List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet1, tweet2), "alyssa");
         
         assertEquals("expected singleton list", 1, writtenBy.size());
         assertTrue("expected list to contain tweet", writtenBy.contains(tweet1));
+    }
+    
+    @Test
+    public void testWrittenByMultipleTweetsMultipleResult() {
+        List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet1, tweet2, tweet3, tweet4), "alyssa");
+        
+        assertEquals( 2, writtenBy.size());
+        assertTrue(writtenBy.contains(tweet1));
+        assertTrue(writtenBy.contains(tweet3));
     }
     
     @Test
