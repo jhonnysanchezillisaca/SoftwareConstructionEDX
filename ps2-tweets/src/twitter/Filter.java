@@ -1,7 +1,10 @@
 package twitter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -64,7 +67,11 @@ public class Filter {
 	 *         tweets are in the same order as in the input list.
 	 */
 	public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-		throw new RuntimeException("not implemented");
+		Set<Tweet> results = new HashSet<>();
+		for(String word : words){
+			results.addAll(tweets.stream().filter(t -> Arrays.asList(t.getText().split(" ")).contains(word)).collect(Collectors.toList()));
+		}
+		return new ArrayList<>(results);
 	}
 
 	/*

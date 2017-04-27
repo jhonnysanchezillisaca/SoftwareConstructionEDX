@@ -1,6 +1,8 @@
 package twitter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -17,8 +19,6 @@ public class FilterTest {
     
     private static final Instant d1 = Instant.parse("2016-02-17T10:00:00Z");
     private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
-    private static final Instant d3 = Instant.parse("2016-02-17T13:00:00Z");
-    private static final Instant d4 = Instant.parse("2016-02-17T15:00:00Z");
 
     
     private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
@@ -128,14 +128,76 @@ public class FilterTest {
 
     }
     
+    /*
+     * Tests of containing
+     * 
+     * 	one tweet one result
+     * 	one tweet various results
+     * 	one tweet one result
+     * 	one tweet no results
+     * 	various tweets one result
+     * 	various tweets one result
+     * 	various tweets no results
+     * 	words not separated by spaces
+     * 	
+     */
+    
     @Test
-    public void testContaining() {
-        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("talk"));
+    public void testContainingSubstringsNoResults() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), Arrays.asList("ona"));
+        
+        assertTrue("expected empty list", containing.isEmpty());
+    }
+    
+    @Test
+    public void testContainingOneTweetNoResults() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), Arrays.asList("rivendel"));
+        
+        assertTrue("expected empty list", containing.isEmpty());
+    }
+    
+    @Test
+    public void testContainingOneTweetOneResult() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), Arrays.asList("talk"));
+        
+        assertFalse("expected non-empty list", containing.isEmpty());
+        assertTrue("expected list to contain tweets", containing.containsAll(Arrays.asList(tweet1)));
+    }
+    
+    @Test
+    public void testContainingOneTweetMultipleResults() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1), Arrays.asList("talk", "reasonable"));
+        
+        assertFalse("expected non-empty list", containing.isEmpty());
+        assertTrue("expected list to contain tweets", containing.containsAll(Arrays.asList(tweet1)));
+        assertEquals(1, containing.size());
+    }
+    
+    @Test
+    public void testContainingMultipleTweetsOneResult() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("reasonable"));
+        
+        assertFalse("expected non-empty list", containing.isEmpty());
+        assertTrue("expected list to contain tweets", containing.containsAll(Arrays.asList(tweet1)));
+        assertEquals("expected same order", 0, containing.indexOf(tweet1));
+    }
+    
+    @Test
+    public void testContainingMultipleTweetsNoResults() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("gondor"));
+        
+        assertTrue("expected empty list", containing.isEmpty());
+    }
+    
+    @Test
+    public void testContainingMultipleTweetsMultipleResults() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("talk", "reasonable"));
         
         assertFalse("expected non-empty list", containing.isEmpty());
         assertTrue("expected list to contain tweets", containing.containsAll(Arrays.asList(tweet1, tweet2)));
         assertEquals("expected same order", 0, containing.indexOf(tweet1));
     }
+    
 
     /*
      * Warning: all the tests you write here must be runnable against any Filter
