@@ -139,6 +139,8 @@ public class FilterTest {
      * 	various tweets one result
      * 	various tweets no results
      * 	words not separated by spaces
+     * 
+     * TODO: case insensitive tests
      * 	
      */
     
