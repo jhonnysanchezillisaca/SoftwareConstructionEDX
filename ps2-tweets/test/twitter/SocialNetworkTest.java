@@ -75,9 +75,9 @@ public class SocialNetworkTest {
 	public void testGuessFollowsGraphOneUserMentionsOtherUser() {
 		Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
 
-		assertTrue(followsGraph.get("allysa").contains("user"));
+		assertTrue(followsGraph.get("@alyssa").contains("@user"));
 		assertEquals("expected one entry",1, followsGraph.size());
-		assertEquals("expected one entry in set",1, followsGraph.get("allysa").size());
+		assertEquals("expected one entry in set",1, followsGraph.get("@alyssa").size());
 
 	}
 	
@@ -85,12 +85,12 @@ public class SocialNetworkTest {
 	public void testGuessFollowsGraphOneUserMentionsOthersUsers() {
 		Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet5));
 
-		assertTrue(followsGraph.get("bbitdiddle").contains("user"));
-		assertTrue(followsGraph.get("bbitdiddle").contains("tony"));
-		assertTrue(followsGraph.get("bbitdiddle").contains("allysa"));
+		assertTrue(followsGraph.get("@bbitdiddle").contains("@user"));
+		assertTrue(followsGraph.get("@bbitdiddle").contains("@tony"));
+		assertTrue(followsGraph.get("@bbitdiddle").contains("@alyssa"));
 
 		assertEquals("expected one entry", 1, followsGraph.size());
-		assertEquals("expected three entries in set", 3, followsGraph.get("bbitdiddle").size());
+		assertEquals("expected three entries in set", 3, followsGraph.get("@bbitdiddle").size());
 
 	}
 	
@@ -98,7 +98,7 @@ public class SocialNetworkTest {
 	public void testGuessFollowsGraphVariousUsersMentionsOneUser() {
 		Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
 
-		assertTrue(followsGraph.get("allysa").contains("user"));
+		assertTrue(followsGraph.get("@alyssa").contains("@user"));
 		assertEquals("expected only one entry", 1, followsGraph.size());
 
 	}
@@ -107,15 +107,15 @@ public class SocialNetworkTest {
 	public void testGuessFollowsGraphVariousUsersMentionsVariousUsers() {
 		Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1, tweet2, tweet4));
 
-		assertTrue(followsGraph.get("allysa").contains("user"));
-		assertTrue(followsGraph.get("bbitdiddle").contains("user"));
-		assertTrue(followsGraph.get("user").contains("allysa"));
+		assertTrue(followsGraph.get("@alyssa").contains("@user"));
+		assertTrue(followsGraph.get("@bbitdiddle").contains("@user"));
+		assertTrue(followsGraph.get("@user").contains("@alyssa"));
 
 
 		assertEquals("expected three entries", 3, followsGraph.size());
-		assertEquals("expected one entry in set", 1, followsGraph.get("allysa").size());
-		assertEquals("expected one entry in set", 1, followsGraph.get("bbitdiddle").size());
-		assertEquals("expected one entry in set", 1, followsGraph.get("user").size());
+		assertEquals("expected one entry in set", 1, followsGraph.get("@alyssa").size());
+		assertEquals("expected one entry in set", 1, followsGraph.get("@bbitdiddle").size());
+		assertEquals("expected one entry in set", 1, followsGraph.get("@user").size());
 
 	}
 
